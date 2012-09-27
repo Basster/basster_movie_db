@@ -16,18 +16,18 @@
     </form>
 </div>
 <div class="navigation">
-                {{ pagination.render()|raw }}
+                {# pagination.render()|raw #}
             </div>
         <table class="records_list">
             <thead>
                 <tr>
-                    <th>{{ pagination.sortable('Titel', 'm.title')|raw }}</th>
-                    <th>{{ pagination.sortable('Aufbewahrung', 'sl.title')|raw }}</th>
+                    <th>Titel</th>
+                    <th>Aufbewahrung</th>
                     <th>Aktionen</th>
                 </tr>
             </thead>
             <tbody>
-    {% for movie in pagination %}
+    {% for movie in movies %}
                     <tr {% if loop.index is odd %}class="color"{% endif %}>
                         <td><a href="{{ path('movie_show', { 'slug': movie.slug }) }}">{{ movie.title }}</a></td>
                         <td>{{ movie.storagelocation }}</td>
@@ -43,7 +43,7 @@
                 </tbody>
             </table>
             <div class="navigation">
-                {{ pagination.render()|raw }}
+                {# pagination.render()|raw #}
             </div>
 
             <ul>

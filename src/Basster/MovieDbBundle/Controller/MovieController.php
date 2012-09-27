@@ -14,9 +14,10 @@ use Basster\TmdbBundle\Entity\TMDb;
 /**
  * Movie controller.
  *
- * @Route("/")
+ * @Route("")
  */
-class MovieController extends Controller {
+class MovieController extends Controller
+{
 
     private $tmdbKey = "60fefc9681ecc32ef7ebc8a431c247da";
     private $tmdb = null;
@@ -29,13 +30,19 @@ class MovieController extends Controller {
      * @Route("/search/{query}", name="movie_list_search", defaults={"capital" = null, "query" = "movie" })
      * @Template()
      */
-    public function indexAction($capital = null, $query = null) {
+    public function indexAction($capital = null, $query = null)
+    {
+        /**
+         * @var $em \Doctrine\ORM\EntityManager
+         */
         $em = $this->getDoctrine()->getEntityManager();
 
         $searchForm = $this->createFormBuilder()
-                ->add('query', 'search')
-                ->getForm();
-        
+            ->add('query', 'search', array(
+                'required' => false
+            ))
+            ->getForm();
+
         $dql = "SELECT m, sl
                 FROM BassterMovieDbBundle:Movie m
                 JOIN m.storageLocation sl";
@@ -43,10 +50,9 @@ class MovieController extends Controller {
         if ($query == 'movie') {
             $q = $this->getRequest()->get($searchForm->getName());
             $searchForm->setData($q);
-            
-            $dql .= " WHERE m.title LIKE '%" . $q['query'] . "%' ";            
-        } 
-        else {
+
+            $dql .= " WHERE m.title LIKE '%" . $q['query'] . "%' ";
+        } else {
 
             if (!is_null($capital)) {
                 if ($capital == '0-9') {
@@ -55,20 +61,15 @@ class MovieController extends Controller {
                     $dql .= " WHERE m.title LIKE '" . $capital . "%' ";
                 }
             }
-            
+
         }
-        
+
         $dql .= " ORDER BY m.title ASC";
 
         $query = $em->createQuery($dql);
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $query, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
-        );
-
         return array(
-            'pagination' => $pagination,
+            'movies' => $query->getResult(),
             'alpha' => $this->getNavAlphabet(),
             'totalCount' => $em->getRepository('BassterMovieDbBundle:Movie')->countAll(),
             'searchForm' => $searchForm->createView()
@@ -77,10 +78,11 @@ class MovieController extends Controller {
 
     /**
      * Ermittelt die Menge aller Filme nach Anfangsbuchstaben für den Listenfilter
-     * 
+     *
      * @return type array
      */
-    private function getNavAlphabet() {
+    private function getNavAlphabet()
+    {
         $conn = $this->get('database_connection');
 
         $dql2 = "SELECT LEFT(title, 1) as c, COUNT(*) as cnt 
@@ -115,10 +117,11 @@ class MovieController extends Controller {
     /**
      * Finds and displays a Movie entity.
      *
-     * @Route("/{slug}/show", name="movie_show")
+     * @Route("/movie/{slug}/show", name="movie_show")
      * @Template()
      */
-    public function showAction($slug) {
+    public function showAction($slug)
+    {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = new Movie();
@@ -142,10 +145,11 @@ class MovieController extends Controller {
     /**
      * Displays a form to create a new Movie entity.
      *
-     * @Route("/new", name="movie_new")
+     * @Route("/movie/new", name="movie_new")
      * @Template()
      */
-    public function newAction() {
+    public function newAction()
+    {
         $entity = new Movie();
         $form = $this->createForm(new MovieType(), $entity);
 
@@ -158,11 +162,12 @@ class MovieController extends Controller {
     /**
      * Creates a new Movie entity.
      *
-     * @Route("/create", name="movie_create")
+     * @Route("/movie/create", name="movie_create")
      * @Method("post")
      * @Template("BassterMovieDbBundle:Movie:new.html.twig")
      */
-    public function createAction() {
+    public function createAction()
+    {
         $entity = new Movie();
         $request = $this->getRequest();
         $form = $this->createForm(new MovieType(), $entity);
@@ -185,10 +190,11 @@ class MovieController extends Controller {
     /**
      * Displays a form to edit an existing Movie entity.
      *
-     * @Route("/{slug}/edit", name="movie_edit")
+     * @Route("/movie/{slug}/edit", name="movie_edit")
      * @Template()
      */
-    public function editAction($slug) {
+    public function editAction($slug)
+    {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('BassterMovieDbBundle:Movie')->findOneBySlug($slug);
@@ -210,11 +216,12 @@ class MovieController extends Controller {
     /**
      * Edits an existing Movie entity.
      *
-     * @Route("/{slug}/update", name="movie_update")
+     * @Route("/movie/{slug}/update", name="movie_update")
      * @Method("post")
      * @Template("BassterMovieDbBundle:Movie:edit.html.twig")
      */
-    public function updateAction($slug) {
+    public function updateAction($slug)
+    {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('BassterMovieDbBundle:Movie')->findOneBySlug($slug);
@@ -247,10 +254,11 @@ class MovieController extends Controller {
     /**
      * Deletes a Movie entity.
      *
-     * @Route("/{slug}/delete", name="movie_delete")
+     * @Route("/movie/{slug}/delete", name="movie_delete")
      * @Method("post")
      */
-    public function deleteAction($slug) {
+    public function deleteAction($slug)
+    {
         $form = $this->createDeleteForm($slug);
         $request = $this->getRequest();
 
@@ -271,18 +279,19 @@ class MovieController extends Controller {
         return $this->redirect($this->generateUrl('movie'));
     }
 
-    private function createDeleteForm($slug) {
+    private function createDeleteForm($slug)
+    {
         return $this->createFormBuilder(array('slug' => $slug))
-                        ->add('slug', 'hidden')
-                        ->getForm()
-        ;
+            ->add('slug', 'hidden')
+            ->getForm();
     }
 
     /**
      *
-     * @return TMDb\Api\TMDb 
+     * @return TMDb
      */
-    private function getTmdb() {
+    private function getTmdb()
+    {
         if (is_null($this->tmdb)) {
             $this->tmdb = new TMDb($this->tmdbKey);
             $this->tmdb->setLang('de-DE');
@@ -291,27 +300,35 @@ class MovieController extends Controller {
         return $this->tmdb;
     }
 
-    public function searchTmdbAction($title, $autocomplete = false) {
+    /**
+     * @Route("/movie/{title}/search/{autocomplete}", name="movie_db_search", defaults={"autocomplete" = false}, options={"expose"=true})
+     *
+     * @param $title
+     * @param bool $autocomplete
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function searchTmdbAction($title, $autocomplete = false)
+    {
 
         $tmdb = $this->getTmdb();
 
         //$result = $tmdb->searchMovie($title);
         $result = $tmdb->browseMovies('title', 'asc', array(
             'query' => $title
-                ));
-        
+        ));
+
         if ($autocomplete == true && $result != '["Nothing found."]') {
-            
+
             $movies = array();
             $results = json_decode($result);
-            
+
             foreach ($results as $res) {
                 $movie = array();
                 $movie['key'] = $res->id;
                 $movie['value'] = $res->name;
                 $movies[] = $movie;
             }
-            
+
             $result = $movies;
         }
 
@@ -320,12 +337,18 @@ class MovieController extends Controller {
 
         return $response;
     }
-    
-    public function searchMovieNameAction($part) {
-        
+
+    /**
+     * Edits an existing Movie entity.
+     *
+     * @Route("/movie/search/{part}/title", name="movie_name_search", options={"expose"=true})
+     */
+    public function searchMovieNameAction($part)
+    {
+
         $em = $this->getDoctrine()->getEntityManager();
         $movies = $em->getRepository('BassterMovieDbBundle:Movie')->findByNamePart($part);
-        
+
         $response = new Response(json_encode($movies));
         $response->headers->set('Content-Type', 'application/json');
 

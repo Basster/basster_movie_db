@@ -39,18 +39,26 @@ $(document).ready(function(){
 
 function onAutoCompleteSearch(request, response) {
     var term = request.term;
+
+    var url = Routing.generate('movie_name_search', {part: term});
             
-    $.getJSON("http://localhost/moviedb/web/app_dev.php/search/title/" + term, function(data, status, xhr) {
+    $.getJSON(url, function(data, status, xhr) {
         response(data);
     });
 }
 
 function onAutoCompleteTmdb(request, response) {
     var term = request.term;
-    
-    $.getJSON("http://localhost/moviedb/web/app_dev.php/search/movie/" + term + "/true", function(data, status, xhr) {
-        if (data != '["Nothing found."]')
-            response(data); 
+
+    var url =  Routing.generate('movie_db_search', {title: term, autocomplete: 'true'});
+    $('#movie_title').addClass('loading');
+
+    $.getJSON(url, function(data, status, xhr) {
+        //console.log(data);
+        $('#movie_title').removeClass('loading');
+        if (data != '["Nothing found."]') {
+              response(data);
+        }
     });
 }
  
@@ -66,8 +74,10 @@ function onSubmitMovie() {
         $('#movie_movieDbLink').val('');
         return true;
     }
+
+    var url =  Routing.generate('movie_db_search', {title: value});
     
-    $.getJSON("http://localhost/moviedb/web/app_dev.php/search/movie/" + value, onGetTmdbResult);
+    $.getJSON(url, onGetTmdbResult);
     
     return false;
 }

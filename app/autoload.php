@@ -16,9 +16,8 @@ $loader->registerNamespaces(array(
     'Doctrine'         => __DIR__.'/../vendor/doctrine/lib',
     'Monolog'          => __DIR__.'/../vendor/monolog/src',
     'Assetic'          => __DIR__.'/../vendor/assetic/src',
-    'Knp\\Component'   => __DIR__.'/../vendor/knp-components/src',
-    'Knp\\Bundle'      => __DIR__.'/../vendor/bundles',
     'Metadata'         => __DIR__.'/../vendor/metadata/src',
+    'FOS'              => __DIR__.'/../vendor/bundles',
     'Basster'          => __DIR__.'/../src'
 ));
 $loader->registerPrefixes(array(

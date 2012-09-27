@@ -11,7 +11,13 @@ class MovieType extends AbstractType
     {
         $builder
             ->add('title','text',array('label' => 'Titel'))
-            ->add('storageLocation', null, array('label' => 'Aufbewahrung'))
+            ->add('storageLocation', null, array(
+                'label' => 'Aufbewahrung'
+            ))
+            ->add('type', 'choice', array(
+                'choices' => array('dvd' => 'DVD', 'bd' => 'BluRay', 'file' => 'Datei/Stream'),
+                'label' => 'Medium'
+            ))
             ->add('movieDbLink', 'hidden')
         ;
     }
