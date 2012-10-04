@@ -19,6 +19,11 @@ monolog:
             type:  firephp
             level: info
 
+doctrine:
+    dbal:
+        user:     moviedb
+        password: moviedb
+
 assetic:
     use_controller: true
 
