@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Basster\MovieDbBundle\Entity\Movie
+ * Movie
  *
  * @ORM\Table(name="movie")
  * @ORM\Entity(repositoryClass="Basster\MovieDbBundle\Repository\MovieRepository")
@@ -31,16 +31,24 @@ class Movie
 
     /**
      * @ORM\ManyToOne(targetEntity="StorageLocation", inversedBy="movies")
-     * @ORM\JoinColumn(name="storage_location_id", referencedColumnName="id", nullable="false")
+     * @ORM\JoinColumn(name="storage_location_id", referencedColumnName="id")
      */
     private $storageLocation;
 
     /**
      * @var string $movieDbLink
      *
-     * @ORM\Column(name="movie_db_link", type="string", length=255, nullable="false")
+     * @ORM\Column(name="movie_db_link", type="string", length=255, nullable=true)
      */
     private $movieDbLink;
+
+
+    /**
+     * @var string $type
+     *
+     * @ORM\Column(name="type", type="string", length=50)
+     */
+    private $type;
     
     /**
      * @Gedmo\Slug(fields={"title"})
@@ -100,7 +108,7 @@ class Movie
     /**
      * Set storageLocation
      *
-     * @param Basster\MovieDbBundle\Entity\StorageLocation $storageLocation
+     * @param StorageLocation $storageLocation
      */
     public function setStorageLocation(\Basster\MovieDbBundle\Entity\StorageLocation $storageLocation)
     {
@@ -110,7 +118,7 @@ class Movie
     /**
      * Get storageLocation
      *
-     * @return Basster\MovieDbBundle\Entity\StorageLocation 
+     * @return StorageLocation
      */
     public function getStorageLocation()
     {
@@ -119,5 +127,35 @@ class Movie
     
     public function getSlug() {
         return $this->slug;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 }

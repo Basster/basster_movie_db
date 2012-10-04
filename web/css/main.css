@@ -11,7 +11,7 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-root { 
+root {
     display: block;
 }
 
@@ -88,4 +88,10 @@ th {
 
 #movie_db_result {
     display: none;
+}
+
+#movie_title.loading {
+    background-image: url('../images/ajax-loader.gif');
+    background-repeat: no-repeat;
+    background-position: right;
 }
