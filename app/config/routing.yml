@@ -8,4 +8,10 @@ BassterMovieDbBundle:
     
 welcome:
     pattern:  /
-    defaults: { _controller: BassterMovieDbBundle:Movie:index, capital: null }
+    defaults: { _controller: BassterMovieDbBundle:Movie:index, capital: null }	
+
+# Internal routing configuration to handle ESI
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal
+

@@ -38,7 +38,7 @@ class Movie
     /**
      * @var string $movieDbLink
      *
-     * @ORM\Column(name="movie_db_link", type="string", length=255, nullable="true")
+     * @ORM\Column(name="movie_db_link", type="string", length=255, nullable=true)
      */
     private $movieDbLink;
 
