@@ -21,8 +21,9 @@ monolog:
 
 doctrine:
     dbal:
-        user:     moviedb
-        password: moviedb
+        dbname: moviedb
+        user:     root
+        password: 6MxmvtMITB3Mck
 
 assetic:
     use_controller: true

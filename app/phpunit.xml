@@ -20,10 +20,12 @@
         </testsuite>
     </testsuites>
 
+
     <php>
-        <const name="TMDB_API_KEY" value="your-key-here"/>
+        <const name="TMDB_API_KEY" value="60fefc9681ecc32ef7ebc8a431c247da"/>
         <const name="LOCALE" value="de"/>
     </php>
+
 
     <filter>
         <whitelist>

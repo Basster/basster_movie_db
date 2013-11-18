@@ -8,11 +8,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Movie
  *
- * @ORM\Table(name="movie")
+ * @ORM\Table(name="movie_db_movies")
  * @ORM\Entity(repositoryClass="Basster\MovieDbBundle\Repository\MovieRepository")
  */
-class Movie
-{
+class Movie {
     /**
      * @var integer $id
      *
@@ -49,7 +48,7 @@ class Movie
      * @ORM\Column(name="type", type="string", length=50)
      */
     private $type;
-    
+
     /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=128, type="string", unique=true)
@@ -59,10 +58,9 @@ class Movie
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -71,34 +69,32 @@ class Movie
      *
      * @param string $title
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
-    
+
     /**
      * Set MovieDbLink
-     * 
-     * @param string $movieDbLink 
+     *
+     * @param $link
      */
     public function setMovieDbLink($link) {
         $this->movieDbLink = $link;
     }
-    
+
     /**
      * Get MovieDbLink
      *
-     * @return string 
+     * @return string
      */
     public function getMovieDbLink() {
         return $this->movieDbLink;
@@ -110,8 +106,7 @@ class Movie
      *
      * @param StorageLocation $storageLocation
      */
-    public function setStorageLocation(\Basster\MovieDbBundle\Entity\StorageLocation $storageLocation)
-    {
+    public function setStorageLocation(StorageLocation $storageLocation) {
         $this->storageLocation = $storageLocation;
     }
 
@@ -120,11 +115,10 @@ class Movie
      *
      * @return StorageLocation
      */
-    public function getStorageLocation()
-    {
+    public function getStorageLocation() {
         return $this->storageLocation;
     }
-    
+
     public function getSlug() {
         return $this->slug;
     }
@@ -134,18 +128,16 @@ class Movie
      *
      * @param string $type
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->type = $type;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
 
@@ -154,8 +146,7 @@ class Movie
      *
      * @param string $slug
      */
-    public function setSlug($slug)
-    {
+    public function setSlug($slug) {
         $this->slug = $slug;
     }
 }

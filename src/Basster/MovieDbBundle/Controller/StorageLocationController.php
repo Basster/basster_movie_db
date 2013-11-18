@@ -24,7 +24,7 @@ class StorageLocationController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('BassterMovieDbBundle:StorageLocation')->findAll();
 
@@ -39,7 +39,7 @@ class StorageLocationController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BassterMovieDbBundle:StorageLocation')->find($id);
 
@@ -86,7 +86,7 @@ class StorageLocationController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -108,7 +108,7 @@ class StorageLocationController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BassterMovieDbBundle:StorageLocation')->find($id);
 
@@ -135,7 +135,7 @@ class StorageLocationController extends Controller
      */
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BassterMovieDbBundle:StorageLocation')->find($id);
 
@@ -178,7 +178,7 @@ class StorageLocationController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('BassterMovieDbBundle:StorageLocation')->find($id);
 
             if (!$entity) {

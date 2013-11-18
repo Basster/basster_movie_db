@@ -1,15 +1,15 @@
+# This file is auto-generated during the composer install
 parameters:
-    database_driver:   pdo_mysql
-    database_host:     localhost
-    database_port:     ~
-    database_name:     moviedb
-    database_user:     root
-    database_password: ~
-
-    mailer_transport:  smtp
-    mailer_host:       localhost
-    mailer_user:       ~
-    mailer_password:   ~
-
-    locale:            en
-    secret:            c3031fb62f410410345bbcab91c45b4f5
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: db1069312-basster
+    database_user: dbu1069312
+    database_password: theo23
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: de
+    secret: c3031fb62f410410345bbcab91c45b4f5
+    tmdb_api_key: 60fefc9681ecc32ef7ebc8a431c247da

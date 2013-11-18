@@ -8,11 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Basster\MovieDbBundle\Entity\StorageLocation
  *
- * @ORM\Table(name="storage_location")
+ * @ORM\Table(name="movie_db_storage_locations")
  * @ORM\Entity
  */
-class StorageLocation
-{
+class StorageLocation {
     /**
      * @var integer $id
      *
@@ -33,11 +32,11 @@ class StorageLocation
      * @ORM\OneToMany(targetEntity="Movie", mappedBy="storageLocation", cascade={"persist", "remove"})
      */
     private $movies;
-    
+
     public function __construct() {
         $this->movies = new ArrayCollection();
     }
-    
+
     public function __toString() {
         return $this->title;
     }
@@ -45,10 +44,9 @@ class StorageLocation
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -57,38 +55,34 @@ class StorageLocation
      *
      * @param string $title
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
     /**
      * Add movies
      *
-     * @param Basster\MovieDbBundle\Entity\Movie $movies
+     * @param Movie $movies
      */
-    public function addMovie(\Basster\MovieDbBundle\Entity\Movie $movies)
-    {
+    public function addMovie(Movie $movies) {
         $this->movies[] = $movies;
     }
 
     /**
      * Get movies
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMovies()
-    {
+    public function getMovies() {
         return $this->movies;
     }
 }

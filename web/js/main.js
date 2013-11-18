@@ -101,12 +101,15 @@ function onGetTmdbResult(json) {
     var data = eval('(' + json + ')');
             
     $.each(data,function(index, value) {
-        var li = $("<li id='" + value.id + "'><a href='#'>" + value.name + "</a></li>");
-        li.click(chooseMovieDbLink);
-        li.appendTo(ul);
+        if (value !== '"Nothing found."') {
+            var li = $("<li id='" + value.id + "'><a href='#'>" + value.name + "</a></li>");
+            li.click(chooseMovieDbLink);
+            li.appendTo(ul);
+        }
     });
     
     var noneLi = $('<li id="-1"><a href="#">Kein Movie DB Link</a></li>');
+    noneLi.on('click', chooseMovieDbLink);
     noneLi.appendTo(ul);
 
     ul.appendTo($('#movie_db_result'));

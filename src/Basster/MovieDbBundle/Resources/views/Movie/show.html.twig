@@ -19,23 +19,27 @@
         </tr>
     </tbody>
 </table>
+{% if entity.movieDbLink %}
 <h2>Filminfos:</h2>
 <section id="movie_db_entry">
-    <h1>{{ dbEntry.name }} ({{ dbEntry.released }})</h1>
+    <h1>{{ dbEntry.title }} ({{ dbEntry.release_date }})</h1>
     <section id="runtime">
         Laufzeit: {{ dbEntry.runtime }} min
     </section>
     <section id="plot">
         {{ dbEntry.overview }}
     </section>
+    {% if posters | length > 0 %}
     <section id="posters" class="nivoSlider" style="width:154px; height:231px">
-        {% for poster in dbEntry.posters %}
-            {% if poster.image.width == 154 %}
-            <img src="{{ poster.image.url }}" />
-            {% endif %}
+        {% for poster in posters %}
+            <img src="{{ poster }}" />
         {% endfor %}
     </section>
+    {% endif %}
 </section>
+{% else %}
+<h2>Keine Filminfos vorhanden.</h2>
+{% endif %}
 <ul class="record_actions">
     <li>
         <a href="{{ path('movie') }}">
