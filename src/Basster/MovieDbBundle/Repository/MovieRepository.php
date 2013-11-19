@@ -25,4 +25,16 @@ class MovieRepository extends EntityRepository {
         
         return $this->getEntityManager()->createQuery($dql)->getResult();
     }
+
+    public function findCapitalCounts() {
+        $dql = "SELECT LEFT(m.title, 1) as c, COUNT(m.id) as cnt
+                FROM BassterMovieDbBundle:Movie m
+                GROUP BY c
+                ORDER BY c
+                ";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        return $query->getResult();
+    }
 }

@@ -56,6 +56,45 @@ class Movie {
     private $slug;
 
     /**
+     * @var mixed MovieDbEntry
+     */
+    private $movieDbEntry;
+
+    /**
+     * @var string poster Url
+     * @ORM\Column(length=255, type="string", nullable=true)
+     */
+    private $poster;
+
+    /**
+     * @param mixed $movieDbEntry
+     */
+    public function setMovieDbEntry($movieDbEntry) {
+        $this->movieDbEntry = $movieDbEntry;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovieDbEntry() {
+        return $this->movieDbEntry;
+    }
+
+    /**
+     * @param string $poster
+     */
+    public function setPoster($poster) {
+        $this->poster = $poster;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPoster() {
+        return $this->poster;
+    }
+
+    /**
      * Get id
      *
      * @return integer

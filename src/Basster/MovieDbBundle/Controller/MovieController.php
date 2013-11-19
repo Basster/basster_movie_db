@@ -68,8 +68,23 @@ class MovieController extends Controller {
 
         $query = $em->createQuery($dql);
 
+        $movies = $query->getResult();
+        $tmdb = $this->getTmdb();
+
+        /** @var $movie Movie */
+        foreach ($movies as $movie) {
+            if ($movie->getMovieDbLink() && !$movie->getPoster()) {
+                $tmdbEntry = $this->getMovieDbEntry($movie->getMovieDbLink());
+                $movie->setMovieDbEntry($tmdbEntry);
+                $movie->setPoster($tmdb->getImageUrl($tmdbEntry['poster_path'], $tmdb::IMAGE_POSTER, "w154"));
+                $em->persist($movie);
+            }
+        }
+
+        $em->flush();
+
         return array(
-            'movies'     => $query->getResult(),
+            'movies'     => $movies,
             'alpha'      => $this->getNavAlphabet(),
             'totalCount' => $em->getRepository('BassterMovieDbBundle:Movie')->countAll(),
             'searchForm' => $searchForm->createView()
@@ -82,15 +97,8 @@ class MovieController extends Controller {
      * @return type array
      */
     private function getNavAlphabet() {
-        $conn = $this->get('database_connection');
 
-        $dql2 = "SELECT LEFT(title, 1) as c, COUNT(*) as cnt 
-                FROM movie_db_movies
-                GROUP BY LEFT(title, 1)
-                ORDER BY 1
-                ";
-
-        $alpha = $conn->fetchAll($dql2);
+        $alpha = $this->getDoctrine()->getManager()->getRepository('BassterMovieDbBundle:Movie')->findCapitalCounts();
 
         $alphabet        = array();
         $alphabet['0-9'] = 0;
@@ -137,7 +145,7 @@ class MovieController extends Controller {
         $tmdb = $this->getTmdb();
 
         $movieId      = $entity->getMovieDbLink();
-        $movieDbEntry = $tmdb->getMovie($movieId);
+        $movieDbEntry = $this->getMovieDbEntry($movieId);
         $images = $tmdb->getMovieImages($movieId);
         $posters = array();
         if (isset($images['posters'])) {
@@ -270,7 +278,7 @@ class MovieController extends Controller {
         $form    = $this->createDeleteForm($slug);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em     = $this->getDoctrine()->getManager();
@@ -354,6 +362,17 @@ class MovieController extends Controller {
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    /**
+     * @param $movieId
+     *
+     * @return mixed
+     */
+    private function getMovieDbEntry($movieId) {
+        $movieDbEntry = $this->getTmdb()->getMovie($movieId);
+
+        return $movieDbEntry;
     }
 
 }

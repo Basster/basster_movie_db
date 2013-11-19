@@ -56,6 +56,9 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        dql:
+          string_functions:
+            left: \Basster\MovieDbBundle\DQL\Left
 
 # Swiftmailer Configuration
 swiftmailer:
