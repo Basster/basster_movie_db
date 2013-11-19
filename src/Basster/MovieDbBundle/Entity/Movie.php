@@ -188,4 +188,19 @@ class Movie {
     public function setSlug($slug) {
         $this->slug = $slug;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getTitleCapital() {
+        $result = null;
+        if ($this->title) {
+            $result = substr($this->getTitle(), 0, 1);
+            if (is_numeric($result)) {
+                $result = '0';
+            }
+        }
+
+        return $result;
+    }
 }

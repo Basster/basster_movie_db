@@ -1,72 +1,24 @@
-/* 
-    Document   : main
-    Created on : 24.11.2011, 23:37:29
-    Author     : basster
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-body {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-weight: 300;
-    color: #000000;
-    font-size: 12px;
+.alphabet.nav > li > a {
+    padding: 2px 4px;
+    font-size: .8em;
 }
 
-table {
-    border-collapse: collapse !important;
-    width: 80%;
-    margin: 20px 0;
+.alphabet.nav .badge {
+    padding: 2px 5px;
+    font-size: .8em;
 }
 
-table, img {
-    border: none;
+#alpha_filter_choice {
+    padding-right: 22px;
 }
 
-table, th, td {
-    border: solid 1px #99ccff;
+.movie_search {
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
-a {
-    color: #000000;
-}
-
-a:active, a:visited {
-    color: #000000;
-}
-
-a:hover {
-    color: #ff3f46;
-}
-
-.clear_both {
-    clear: both;
-}
-
-header {
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav li {
-    float: left;
-    padding: 2px;
-}
-
-th, td {
-    padding: 5px;
-}
-
-th {
-    background-color: #6699ff;
-}
-
-.color {
-    background-color: #99ccff;
+#movie_search_form {
+    margin-right: 23px;
 }
 
 .movie_edit {
@@ -82,9 +34,36 @@ th {
 }
 
 #movie_title.loading {
-    background-image: url('../images/ajax-loader.gif');
-    background-repeat: no-repeat;
-    background-position: right;
+    background: url('../images/ajax-loader.gif') no-repeat right;
+}
+
+#movies_container .movie {
+    background-color: #999999;
+    border: solid 1px #000000;
+    margin: 2px;
+    overflow: hidden;
+}
+
+#movies_container .movie a{
+    display: block;
+    width: 154px;
+    height: 154px;
+    position: relative;
+}
+
+#movies_container .title {
+    background-color: rgba(0, 0, 0, .75);
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+#movies_container .title:hover {
+    color: #ff3f46;
 }
 
 /**** Isotope Filtering ****/
@@ -135,29 +114,4 @@ th {
     -ms-transition-duration: 0s;
     -o-transition-duration: 0s;
     transition-duration: 0s;
-}
-
-#movies_container .movie {
-    background-color: #999999;
-    border: solid 1px #000000;
-    width: 154px;
-    height: 154px;
-    margin: 2px;
-    overflow: hidden;
-    position: relative;
-}
-
-#movies_container .title {
-    background-color: rgba(0, 0, 0, .75);
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: bold;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
-
-#movies_container .title:hover {
-    color: #ff3f46;
 }

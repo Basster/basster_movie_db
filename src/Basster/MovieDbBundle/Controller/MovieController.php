@@ -69,11 +69,11 @@ class MovieController extends Controller {
         $query = $em->createQuery($dql);
 
         $movies = $query->getResult();
-        $tmdb = $this->getTmdb();
+        $tmdb   = $this->getTmdb();
 
         /** @var $movie Movie */
         foreach ($movies as $movie) {
-            if ($movie->getMovieDbLink() && !$movie->getPoster()) {
+            if ($movie->getMovieDbLink() && ! $movie->getPoster()) {
                 $tmdbEntry = $this->getMovieDbEntry($movie->getMovieDbLink());
                 $movie->setMovieDbEntry($tmdbEntry);
                 $movie->setPoster($tmdb->getImageUrl($tmdbEntry['poster_path'], $tmdb::IMAGE_POSTER, "w154"));
@@ -84,10 +84,11 @@ class MovieController extends Controller {
         $em->flush();
 
         return array(
-            'movies'     => $movies,
-            'alpha'      => $this->getNavAlphabet(),
-            'totalCount' => $em->getRepository('BassterMovieDbBundle:Movie')->countAll(),
-            'searchForm' => $searchForm->createView()
+            'movies'       => $movies,
+            'alpha'        => $this->getNavAlphabet(),
+            'totalCount'   => $em->getRepository('BassterMovieDbBundle:Movie')->countAll(),
+            'searchForm'   => $searchForm->createView(),
+            'capital' => $capital,
         );
     }
 
@@ -146,10 +147,10 @@ class MovieController extends Controller {
 
         $movieId      = $entity->getMovieDbLink();
         $movieDbEntry = $this->getMovieDbEntry($movieId);
-        $images = $tmdb->getMovieImages($movieId);
-        $posters = array();
+        $images       = $tmdb->getMovieImages($movieId);
+        $posters      = array();
         if (isset($images['posters'])) {
-            foreach ($images['posters'] as $poster){
+            foreach ($images['posters'] as $poster) {
                 $url       = $tmdb->getImageUrl($poster['file_path'], $tmdb::IMAGE_POSTER, "w154");
                 $posters[] = $url;
             }
@@ -158,7 +159,7 @@ class MovieController extends Controller {
         return array(
             'entity'      => $entity,
             'dbEntry'     => $movieDbEntry,
-            'posters'      => $posters,
+            'posters'     => $posters,
             'delete_form' => $deleteForm->createView(),
         );
     }

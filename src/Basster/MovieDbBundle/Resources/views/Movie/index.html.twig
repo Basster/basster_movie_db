@@ -1,36 +1,36 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <nav>
-        <ul>
-            <li><a href="{{ path('welcome') }}">Alle</a>
-                <small>({{ totalCount }})</small>
+    <ul class="alphabet nav nav-pills">
+        <li class="{% if capital is empty %}active{% endif %}">
+            <a href="{{ path('welcome') }}" data-filter="*">Alle <span class="badge">{{ totalCount }}</span></a>
+        </li>
+        {% for key, value in alpha %}
+            <li class="{% if capital == key %}active{% endif %}">
+                <a href="{{ path('movie_list_alphabetical', { 'capital': key }) }}" data-filter=".group_{{ key | first }}">{{ key }}
+                    <span class="badge">{{ value }}</span></a>
             </li>
-            {% for key, value in alpha %}
-                <li><a href="{{ path('movie_list_alphabetical', { 'capital': key }) }}">{{ key }}</a>
-                    <small>({{ value }})</small>
-                </li>
-            {% endfor %}
-        </ul>
-    </nav>
-    <div class="clear_both"></div>
-    <div class="movie_search">
-        <form class="form-inline" role="form" action="{{ path('movie_list_search') }}" method="GET">
-            <div class="form-group">
-                {{ form_label(searchForm.query,'Suchen', {'label_attr': { 'class': 'sr-only' } }) }}
-                {{ form_widget(searchForm.query, {'attr': { 'placeholder':'Hier suchen...', 'class': 'form-control' } }) }}
-            </div>
-            <button type="submit" class="btn btn-default">Suchen</button>
-        </form>
+        {% endfor %}
+    </ul>
+    <div class="row movie_search">
+        <div class="col-md-12">
+            <form id="movie_search_form" class="form-inline pull-right" role="form" action="{{ path('movie_list_search') }}" method="GET">
+                <div class="form-group">
+                    {{ form_label(searchForm.query,'Suchen', {'label_attr': { 'class': 'sr-only' } }) }}
+                    {{ form_widget(searchForm.query, {'attr': { 'placeholder':'Hier suchen...', 'class': 'form-control' } }) }}
+                </div>
+                <button type="submit" class="btn btn-default">Suchen</button>
+            </form>
+        </div>
     </div>
     <div id="movies_container">
         {% for movie in movies %}
-            <a href="{{ path('movie_show', { 'slug': movie.slug }) }}">
-                <div class="movie"{% if movie.poster %}
-                    style="background-image: url({{ movie.poster }})"
-                        {% endif %}>
+            <div class="movie group_{{ movie.titleCapital }}"{% if movie.poster %}
+                style="background-image: url({{ movie.poster }})"
+                    {% endif %}>
+                <a href="{{ path('movie_show', { 'slug': movie.slug }) }}">
                     <div class="title">{{ movie.title }}</div>
-                </div>
-            </a>
+                </a>
+            </div>
         {% endfor %}
     </div>
 
